@@ -7,7 +7,6 @@ clear;
 P = imread('images/book.jpg');
 imshow(P);
 
-
 %% 
 % <latex>
 % We use now \texttt{ginput} to find the coordinates of the 4 corners. We
@@ -17,48 +16,56 @@ imshow(P);
 % fix the upper left corner to $(0,0)$ and we add a scale factor $s$.
 % </latex>
 
-%[X,Y] = ginput(4);
-% Results from previous ginput(4)
-X = [308,258,5,144]';
-Y = [47,217,160,28]';
+%Applying ginput
+[X_input,Y_input] = ginput(4);
+% But we use these points, obtained from ginput, to get always the best
+% result
+points = [47,308;
+        215,256;
+        159,4;
+        29,143];
+
+des =  [0,210 ;
+        297,210;
+        297,0;
+        0,0];
 
 % Here Y is the vertical and X the horizontal value.
-s = 1;
-threshold = [X(4),Y(4)];
-des =  [210,0 ;
-            210,297;
-            0,297;
-            0,0];
-% Adding a threshold and scaling 
-% des = repmat(threshold,4,1) + s .* des;
+   
+X = points(:,1);
+Y = points(:,2);
+    
+    
+    A = [X,Y, ones(4,1), zeros(4,3); zeros(4,3), X,Y, ones(4,1)];
 
-v = [des(:,1);des(:,2)]
-A = [X,Y, ones(4,1), zeros(4,3); zeros(4,3), X,Y, ones(4,1)];
-
-hT = zeros(8,2);
-for i = 1:4
-    hT(i,:) = v(i) * des(i,:);
-    hT(i+4,:) = v(i+4) * des(i,:);
+A_end = zeros(8,2);
+for i =1:4
+    A_end(i,: ) = des(i,1) * points(i,:);
+    A_end(i+4,:) = des(i,2) * points(i,:);
 end
 
-A = [A,-hT];
+A = [A,-A_end];
+v = [des(:,1);des(:,2)];
 
 %%
 % <latex>
-% Now we we want to compute the variable $u = A^{-1} v$. To do that, we
-% use the \backslash operator
+% Now we we want to Acompute the variable $u = A^{-1} v$. To do that, we
+% use the \texttt{\backslash} operator
 
+u = A\v;
 
-u = A\v
-
-% Brining it back into the original 3 times 3 matrix
+% Bringing it back into the original 3 times 3 matrix
 U = reshape([u;1], 3, 3)';
 
 %Testing
 w = U*[X'; Y'; ones(1,4)];
 w = w ./ (ones(3,1) * w(3,:));
 
-T = maketform('projective', U');
-P1 = imtransform(P, T, 'XData', [0 210], 'YData', [0 297]);
-figure;
-imshow(P1);
+if sum(abs(w(1:2,:) -des')) < 1e-12
+    T = maketform('projective', U');
+    P1 = imtransform(P, T, 'XData', [0 210], 'YData', [0 297]);
+    figure;
+    imshow(P1);
+else
+    error('Projection did not work, use other points')
+end    
