@@ -1,38 +1,32 @@
 %%
 % <latex>
-% We compute use the function \texttt{getH(sigma)} to compute the matrices
+% We use the function \texttt{getH(sigma)} 
+% to compute the matrices. The source code after this part.
 % for $\sigma_1 = 1$ and $\sigma_2 = 2$.
 % </latex>
 
-format short; %We need that for a better overview
 H1 = getH(1)
 H2 = getH(2)
-
 %Normalisation
 %Calculate sums
 s1 = sum(H1(:))
 s2 = sum(H2(:))
-
 %Multiply with the inverse
 H1 = 1/s1 * H1;
 H2 = 1/s2 * H2;
-
 %Control
 s1 = sum(H1(:))
 s2 = sum(H2(:))
-
 % Visualisation with mesh
 x = -2:2;
 [X,Y] = meshgrid(x,x); %create grid
 mesh(X,Y,H1);
 figure;
 mesh(X,Y,H2);
-
-
 %%
 % <latex>
 % We see, that both matrices are invariant under $90^{\circ}$ rotations,
-% reflection and transponation. In $H_1$, the center has a higher value
+% reflection and transposing. In $H_1$, the center has a higher value
 % compared to the other points. \\ \\ Now we import the Picture ntugn.jpg
 % from our image folder and view it. To get a better result, we also do a
 % contrast stretching.
@@ -40,7 +34,6 @@ mesh(X,Y,H2);
 
 P = imread('images/ntugn.jpg');
 imshow(P,[]);
-
 %%
 % <latex>
 % We see that there is a lot of noise. For example in the sky should
@@ -50,17 +43,13 @@ imshow(P,[]);
 
 P1 = conv2(double(P),double(H1),'same');
 P2 = conv2(double(P),double(H2),'same');
-
 % Get back to uint8
 P1 = uint8(P1);
 P2 = uint8(P2);
-
 % Show results, also with contrast stretching
 imshow(P1,[]);
 figure;
 imshow(P2,[]);
-
-
 %%
 % <latex>
 % We obtained two pictures with less noise. If $\sigma$ is higher more
@@ -70,8 +59,6 @@ imshow(P2,[]);
 
 Q = imread('images/ntusp.jpg');
 imshow(Q,[]);
-
-
 %%
 % <latex>
 % We see, that the noise is different. In this setting the noise is very
@@ -80,16 +67,13 @@ imshow(Q,[]);
 
 Q1 = conv2(double(Q),double(H1),'same');
 Q2 = conv2(double(Q),double(H2),'same');
-
 % Get back to uint8
 Q1 = uint8(Q1);
 Q2 = uint8(Q2);
-
 % Show results, also with contrast stretching
 imshow(Q1,[]);
 figure;
 imshow(Q2,[]);
-
 %%
 % <latex>
 % In this case, Gaussian filtering is not the best choice. In the first

@@ -6,7 +6,6 @@
 
 %Load P:
 P = rgb2gray(imread('images/mrttrainbland.jpg'));
-
 imhist(P,10);
 figure
 imhist(P,256);
@@ -14,7 +13,7 @@ imhist(P,256);
 %%
 % <latex>
 % We see that the histogram with 256 bins has a higher resolution. But the
-% first gives also a good summmary. In both figures, we see that there are
+% first gives also a good summary. In both figures, we see that there are
 % more dark than bright pixels. We carry out the histogram equalization, with the following command.
 % </latex>
 
@@ -22,7 +21,6 @@ P2 = histeq(P,255);
 imshow(P2);
 figure;
 imhist(P2,256);
-
 %%
 % <latex>
 % We see in the histogram and in the picture itself, that the number of
