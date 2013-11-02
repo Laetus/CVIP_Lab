@@ -1,0 +1,136 @@
+
+% This LaTeX was auto-generated from an M-file by MATLAB.
+% To make changes, update the M-file and republish this document.
+
+%\documentclass{standalone}
+%\usepackage{graphicx}
+%\usepackage{color}
+%\usepackage{standalone} 
+
+%\sloppy
+%\definecolor{lightgray}{gray}{0.5}
+%\setlength{\parindent}{0pt}
+
+%\begin{document}
+
+    
+    \begin{par}
+
+All images are stored in a separate folder called 'images'. This leads to
+a tidy workspace. But we have to add the name of the folder to the image name.
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+Pc = imread('images/mrttrainbland.jpg');
+\end{verbatim}
+\begin{par}
+
+The command \texttt{whos} gives a short summary of the matrix properties.
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+whos Pc
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}  Name        Size                Bytes  Class    Attributes
+
+  Pc        320x443x3            425280  uint8              
+
+\end{verbatim} \color{black}
+    \begin{par}
+
+We see, that the matrix has RGB values. We see this because the third dimension is 3. To convert it to a matrix with
+grey-scale values, we use the method \texttt{rgb2gray}
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+P =rgb2gray(Pc);
+whos P
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}  Name        Size              Bytes  Class    Attributes
+
+  P         320x443            141760  uint8              
+
+\end{verbatim} \color{black}
+    \begin{par}
+
+The command \texttt{imshow} shows the picture in a new figure.
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+imshow(P)
+\end{verbatim}
+
+\includegraphics [width=4in]{Part_2_1_01.eps}
+\begin{par}
+
+We find the minimum $\min_P$ and maximum $\max_P$ intensities with the following:
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+min_P = min(P(:)),max_P = max(P(:))
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}
+min_P =
+
+   13
+
+
+max_P =
+
+  204
+
+\end{verbatim} \color{black}
+    \begin{par}
+
+We want a picture $P_1$, such that $\min_{P_1} = 0 $ and $\max_{P_1}
+= 255$. To reach this, we subtract at first $\min_P$ from every value and
+multiply the result with $\frac{\max_{P_1}}{\max_P - \min_P}$
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+P1 =  imsubtract(P,13);
+P1 = immultiply(P1, (255/(204-13)));
+\end{verbatim}
+\begin{par}
+
+Note that this works only if $\max_P \not = \min_P$. We see, that the
+minimum and maximum intensity values are correct and that the picture was enhanced.
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+min_P1 = min(P1(:)), max_P1 = max(P1(:))
+imshow(P1)
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}
+min_P1 =
+
+    0
+
+
+max_P1 =
+
+  255
+
+\end{verbatim} \color{black}
+    
+\includegraphics [width=4in]{Part_2_1_02.eps}
+\begin{par}
+
+Using the method \texttt{imshow(P,[])} does the contrast stretching
+automatically. So we should see now the same picture as above.
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+imshow(P,[])
+\end{verbatim}
+
+\includegraphics [width=4in]{Part_2_1_03.eps}
+
+
+
+% 	\end{document}
+    

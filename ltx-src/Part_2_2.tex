@@ -1,0 +1,88 @@
+
+% This LaTeX was auto-generated from an M-file by MATLAB.
+% To make changes, update the M-file and republish this document.
+
+%\documentclass{standalone}
+%\usepackage{graphicx}
+%\usepackage{color}
+%\usepackage{standalone} 
+
+%\sloppy
+%\definecolor{lightgray}{gray}{0.5}
+%\setlength{\parindent}{0pt}
+
+%\begin{document}
+
+    
+    \begin{par}
+
+We display the image intensity histogram with 10 and 256 bins using the
+following commands.
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+%Load P:
+P = rgb2gray(imread('images/mrttrainbland.jpg'));
+imhist(P,10);
+figure
+imhist(P,256);
+\end{verbatim}
+
+\includegraphics [width=4in]{Part_2_2_01.eps}
+
+\includegraphics [width=4in]{Part_2_2_02.eps}
+\begin{par}
+
+We see that the histogram with 256 bins has a higher resolution. But the
+first gives also a good summary. In both figures, we see that there are
+more dark than bright pixels. We carry out the histogram equalization, with the following command.
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+P2 = histeq(P,255);
+imshow(P2);
+figure;
+imhist(P2,256);
+\end{verbatim}
+
+\includegraphics [width=4in]{Part_2_2_03.eps}
+
+\includegraphics [width=4in]{Part_2_2_04.eps}
+\begin{par}
+
+We see in the histogram and in the picture itself, that the number of
+bright pixels increased. So we obtain a brighter picture. If we run the
+equalisation again, nothing happens. To see that we subtract the two
+pictures $P_2$ and $P_3$ and test if the result equals $0$. If that is the case, the
+corresponding values of the pictures are equal and the value in the
+result \texttt{test} is 1. The matrix \texttt{test} is a logical matrix,
+that means that it only contains $1$ or $0$. So it the minimum of
+\texttt{test} is 1, we know that every value must be $1$. Therefore the
+pictures are equal.
+of P
+
+\end{par} \vspace{1em}
+\begin{verbatim}
+P3 = histeq(P2,255);
+imshow(P3);
+figure;
+imhist(P3,256);
+test = (imsubtract(P2,P3) == 0);
+min(test(:))
+\end{verbatim}
+
+        \color{lightgray} \begin{verbatim}
+ans =
+
+     1
+
+\end{verbatim} \color{black}
+    
+\includegraphics [width=4in]{Part_2_2_05.eps}
+
+\includegraphics [width=4in]{Part_2_2_06.eps}
+
+
+
+% 	\end{document}
+    

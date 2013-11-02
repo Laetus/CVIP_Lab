@@ -35,8 +35,8 @@ min_P = min(P(:)),max_P = max(P(:))
 %%
 % <latex>
 % We want a picture $P_1$, such that $\min_{P_1} = 0 $ and $\max_{P_1}
-% = 255$. To reach this, we subtract at first $min_P$ from every value and
-% multiply the result with $\frac{max_{P_1}}{\max_P - \min_P}$
+% = 255$. To reach this, we subtract at first $\min_P$ from every value and
+% multiply the result with $\frac{\max_{P_1}}{\max_P - \min_P}$
 % </latex>
 
 P1 =  imsubtract(P,13);

@@ -1,0 +1,31 @@
+
+% This LaTeX was auto-generated from an M-file by MATLAB.
+% To make changes, update the M-file and republish this document.
+
+%\documentclass{standalone}
+%\usepackage{graphicx}
+%\usepackage{color}
+%\usepackage{standalone} 
+
+%\sloppy
+%\definecolor{lightgray}{gray}{0.5}
+%\setlength{\parindent}{0pt}
+
+%\begin{document}
+
+    
+    \begin{verbatim}
+function [ H ] = getH( sigma )
+H = zeros(5);
+for x = -2:2
+    for y = -2:2
+        H(x+3,y+3) = exp(-(x^2 + y^2) / (2 * sigma^2) ) / (2 * pi * sigma^2);
+    end
+end
+end
+\end{verbatim}
+
+
+
+% 	\end{document}
+    
