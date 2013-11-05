@@ -6,70 +6,74 @@ P = imread('images/maccropped.jpg');
 P = rgb2gray(P);
 E = edge(P,'canny', [.04 .1], 1);
 
+%Apply Radon transform
 
-% Radon Transformation ist ein Spezialfall der Hough Transf. zählt für eine
-% Linie gamma, die Winkel alpha und Abstand r hat, wieviele Punkte auf
-% dieser Linie liegen, Radon betrachtet nur gegebene Winkel (0:179),
-% während bei der houghs Transf. der Winkel \in R ist
+theta = 0:179; % default theta
+[H,xp] = radon(E,theta);
 
-
-%Apply Radon Transf.
-[H, xp] = radon(E);
-theta = 0:179; %default value
+%Display image
 iptsetpref('ImshowAxesVisible','on')
 imshow(H,[],'Xdata',theta,'Ydata',xp,'InitialMagnification','fit');
-    xlabel('\theta (degrees)')
+xlabel('\theta (degrees)')
 ylabel('x''')
-colormap(hot), colorbar
+colormap(hot), colorbar %eye candy
 iptsetpref('ImshowAxesVisible','off')
 
-%Find positions of maximum values
+% Find maximum
+maximum = max(H(:));
+%Find position of maximum
 [num] = max(H(:));
-[x y] = ind2sub(size(H),find(H==num));
-
-%radius is centered in the middle of the image
-[s t ] = size(H);
-
-theta = y;
-radius = ((s-1)/2) - x;
-
-% normal line equation
-[A, B] = pol2cart(theta*pi/180, radius);
-B = -B; %y Axis
-
-[a b] = size(E);
-middle = [a/2 b/2];
-%Center of the system is in the middle of the picture (a/2 , b/2)
+[x, y] = ind2sub(size(H),find(H==num));
 
 
+%Find angle and radius, note that the order is X (right) Y (up) an in
+%matrices first up (row) and then right (column)
+angle = theta(y);
+radius = xp(x);
 
-% Shifting the center of the coordinate system from the middle to the upper left corner 
-A1 = A + a/2;
-B1 = B + b/2;
+%d)
+% the center of the picture is:
 
-% Calculating the polar coordinates of A1 and B1
-[theta1 radius1] = cart2pol(A1,B1);
+[x, y ]= size(E);
+ y = y/2;
+ x = x/2;
+ 
+ 
+  
+ [A,B] = pol2cart(angle*pi/180,radius);
+  B = -B;
+  
+  %Shift origin
+  A = A + x/2;
+  B = B + y/2;
+ 
+ % A = radius * cos(angle), B = radius * sin(angle)
+ % x * radius * cos(angle) + y * radius * sin(angle) = 
+ % radius * (x * cos(angle)  + y * sin(angle))
+ 
+ % We know x * cos(theta) + y * sin(theta) = radius
+ % -> A * x + B * y = radius * radius = radius^2
+ 
+ % A = radius * cos(theta), B = -radius * sin(theta)
+ % x * radius * cos(theta) + y *radius * sin(theta) = 
+ % radius * (x * cos(theta)  + y * sin(theta))
+ 
+ % We know x * cos(theta) + y * sin(theta) = radius
+ % -> A * x + B * y = radius * radius = radius^2 = C
+ 
+ 
+ 
+ xl = 0;
+ yl = (radius^2 - (A * xl))/B;
+ 
+ xr = 2*x;
+ yr = (radius^2 - (A * xr))/B;
+ 
+ imshow(E)
+ 
+ l = [xl yl];
+ r = [xr yr];
 
-% x * cos(theta) + y * sin(theta) = radius
-
-%Calculate 2 points : (0,y0) and (x0,0)
-
-costhet = sin(theta1);
-sinthet = cos(theta1);
-
-if (costhet * sinthet == 0) 
-   error( 'Theta is multiple of pi or pi/2');
-end
-
-y0 = radius1 / sinthet;
-x0 = radius1 / costhet;
-
-figure;
-imshow(E);
-hold on
-line([x0,0],[0 y0],'LineWidth',2,'Color',[1,0,0]);
-
-
-
-
-
+ line(l,r,'LineWidth',2,'Color',[1,0,0]);
+ 
+ 
