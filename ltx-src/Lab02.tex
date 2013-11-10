@@ -1,0 +1,47 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{standalone}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+
+\usepackage{fancyhdr}
+\setlength{\headheight}{15.2pt}
+\pagestyle{fancy}
+
+
+
+\author{Philipp Fröhlich\\ N1301527G}
+\title{Computer Vision and Image Processing\\ Lab 2}
+
+\usepackage{color}
+
+\sloppy
+\definecolor{lightgray}{gray}{0.45}
+\setlength{\parindent}{0pt}
+
+
+
+\fancyhead[L]{\textit{\MakeUppercase{CVIP: LAB 1}}}
+
+\fancyfoot[L]{\textit{Philipp Fr\"{o}hlich}}
+\fancyfoot[C]{ }
+\fancyfoot[R]{\thepage}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+The report has the following form. The source code is written in black and \texttt{typewriter} font. The \texttt{MATLAB} Output is below and written in the same font, but the color is {\color{lightgray} grey}. Annotations and comments are written in this font.
+\tableofcontents
+\newpage
+
+\section{Edge Detection}
+\input{Part_3_1}
+
+\section{Line Finding using Hough Transform}
+\end{document}

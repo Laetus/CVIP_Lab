@@ -1,79 +1,58 @@
+%a)
 close all
+clear all
 format short
 
-%Reuse canny image with sigma = 1
 P = imread('images/maccropped.jpg');
 P = rgb2gray(P);
-E = edge(P,'canny', [.04 .1], 1);
-
-%Apply Radon transform
-
-theta = 0:179; % default theta
-[H,xp] = radon(E,theta);
-
-%Display image
 iptsetpref('ImshowAxesVisible','on')
-imshow(H,[],'Xdata',theta,'Ydata',xp,'InitialMagnification','fit');
-xlabel('\theta (degrees)')
-ylabel('x''')
-colormap(hot), colorbar %eye candy
-iptsetpref('ImshowAxesVisible','off')
+E = edge(P,'canny', [.04 .1], 1);
+imshow(E);
 
-% Find maximum
-maximum = max(H(:));
+%Test
+%line( [0 358],[260 183],'LineWidth',2,'Color',[1,0,0]);
+
+%b)
+angles = 0:179;
+
+[H,xp] = radon(E',angles);
+figure;
+imshow(H,[],'Xdata', angles, 'YData',xp,'InitialMagnification','fit');
+xlabel('\theta (degrees)');
+ylabel('x''');
+colormap(hot),colorbar;
+
+%c) 
 %Find position of maximum
 [num] = max(H(:));
-[x, y] = ind2sub(size(H),find(H==num));
+[xmax, ymax] = ind2sub(size(H),find(H==num));
 
-
-%Find angle and radius, note that the order is X (right) Y (up) an in
-%matrices first up (row) and then right (column)
-angle = theta(y);
-radius = xp(x);
+%Get line parameters theta and radius with strongest edge support
+theta = angles(ymax);
+radius = xp(xmax);
 
 %d)
-% the center of the picture is:
+[A, B] = pol2cart(theta*pi/180, radius);
+B = -B;
 
-[x, y ]= size(E);
- y = y/2;
- x = x/2;
- 
- 
-  
- [A,B] = pol2cart(angle*pi/180,radius);
-  B = -B;
-  
-  %Shift origin
-  A = A + x/2;
-  B = B + y/2;
- 
- % A = radius * cos(angle), B = radius * sin(angle)
- % x * radius * cos(angle) + y * radius * sin(angle) = 
- % radius * (x * cos(angle)  + y * sin(angle))
- 
- % We know x * cos(theta) + y * sin(theta) = radius
- % -> A * x + B * y = radius * radius = radius^2
- 
- % A = radius * cos(theta), B = -radius * sin(theta)
- % x * radius * cos(theta) + y *radius * sin(theta) = 
- % radius * (x * cos(theta)  + y * sin(theta))
- 
- % We know x * cos(theta) + y * sin(theta) = radius
- % -> A * x + B * y = radius * radius = radius^2 = C
- 
- 
- 
- xl = 0;
- yl = (radius^2 - (A * xl))/B;
- 
- xr = 2*x;
- yr = (radius^2 - (A * xr))/B;
- 
- imshow(E)
- 
- l = [xl yl];
- r = [xr yr];
+[sizey , sizex] = size(E);
 
- line(l,r,'LineWidth',2,'Color',[1,0,0]);
- 
- 
+%compute center, as shown in help radon
+center = floor(([sizex sizey] +1 )/2);
+
+xl = - floor((sizex +1) / 2) +1;
+xr = - xl +1;
+
+C = radius^2;
+yl = (C - (A*xl))/B;
+yr = (C - (A*xr))/B;
+
+%Shift origin to upper left corner
+xshift = [xl, xr] + center(1);
+yshift = [yr, yl] + center(2);
+
+figure;
+imshow(P);
+line([xl xr], [yl yr],'LineWidth',2,'Color',[0,1,0]);
+line(xshift,yshift ,'LineWidth',2,'Color',[0,1,1]);
+%line([xltest xrtest], [yltest yrtest],'LineWidth',2,'Color',[0,0,1]);

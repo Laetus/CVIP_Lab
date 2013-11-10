@@ -1,75 +1,59 @@
-function [ disparity_map ] = disparity( PL,PR, n,m )
-%DISPARITY Summary of this function goes here
-%   Detailed explanation goes here
-
-PL = double(rgb2gray(PL));
-PR = double(rgb2gray(PR));
-
-[nl,ml] = size(PL);
-[nr,mr] = size(PR);
-
-disparity_map = zeros(nl,ml);
-
-%Every picture should have a nX m neighbourhood 1,1 -> 6,6 for n=m=11
-PL = [zeros(nl,floor(n/2)), PL ,zeros(nl,floor(n/2))];
-PL = [zeros(floor(m/2),ml+n-1);PL;zeros(floor(m/2),ml+n-1)];
-
-% i = x (right)  , j = y  (down)  coordinate in PL
-for i = 1:nl
-    for j = 1:ml
-        
-% Extract a template comprising the 11x11 neighbourhood
-        
-        % 1 dimensional SSD matching
-        % Correlation = Convolution with rot180(filter)
-        
-        %Extract neighbourhood
-        template = PL(j+floor(n/2), i : i+n-1);
-        
-        %Calculate SSD matching 
-        amax  = 2 * conv2(PR(j,:)',rot90(rot90(template)),'same') - conv2(PR(j,:)'.^2, ones(1,mr),'same');
-        
-        %Find maximum
-        x_had = 0;        
-        max = -Inf;
-        for t = 1:mr 
-            if max < amax(t)
-                max = amax(t);
-                x_had = t;
-            end
-        end
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%        
-          % 2 dimensional SSD 
-%         neighbourhood= PL(j:j+10,i:i+10);       
-%         argmax =  2 * conv2(PR,rot90(rot90(neighbourhood)),'same') - conv2(PR.^2,ones(nr,mr),'same');
-%         
-%         %Extraxt scanline
-%         scanline = argmax(j,:);
-%         
-%         Find t, with scanline(t) is maximal
-%         max = -Inf;
-%         x_had = 0;
-%         scanline
-%         
-%         for t = 1:mr 
-%             if max < scanline(t)
-%                 max = scanline(t);
-%                 x_had = t;
-%             end
-%         end
-%         
-%         disp(x_had)
-       
-
-
-
-
-        %d = disparity;
-        disparity_map(j,i) = i - x_had;
+function [ disp_map ] = disp_map2( PL, PR, ny,nx )
+%DISP_MAP 
     
-    end
-end
+    PL = double(rgb2gray(PL));
+    PR = double(rgb2gray(PR));
 
-end
+    [sizey sizex] = size(PL);
+    disp_map = ones(sizey,sizex) * 1337;
+    
+   %Enlarge the left picture, such that, every pixel has a n times
+   %neighbourhood
+   
+   enlPL = [ zeros(floor(ny/2),sizex) ; PL ; zeros(floor(ny/2),sizex) ];
+   enlPL = [ zeros(sizey  + ny - 1 , floor(nx/2)), enlPL, zeros(sizey + ny -1, floor(nx/2))];
+   PRsquare = PR.^2;
+    for y = 1:sizey
+        for x = 1:sizex
+            %i) extract template
+            %template = enlPL(y - ceil(ny/2):y + floor(ny/2), x - ceil(nx/2)): x + floor(nx/2);
+            template = enlPL(y:ny+y-1,x:nx+x-1);
+            %ii) Compute SSD, note that convolution is correlation with
+            %template rotated by pi
+            
+            %We are only interested in the y'th line of PR, therefore we
+            %can reduce it
+%             ly = max(1,y- ny - 1);
+%             uy = min(sizey, y + ny +1);
+%             lx = max(1, x- 16);
+%             ux = min(sizex, x +16);
+           
+            % Compute SSD matrix  
+            SSD = 2 * conv2(PR, rot90(rot90(template)),'same') - conv2(PRsquare, ones(ny,nx),'same') ;
+            
+            
+            %Find position of maximum in same line, and closer as 15 to x
+            
+           
+            %Extract the line associated with y
+            line = SSD(y,:);
+            
+            %Find the position with the maximum = argmax
+            argmax = -Inf;
+            x_hat = 42;
+            for t = 1:length(line)
+                if line(t) > argmax
+                    argmax = line(t);
+                    x_hat = t;
+                end
+            end
+            
+            %Shift x_hat back
+            
+            
+            disp_map(y,x) = max(min(x - x_hat,15),-15);
+            end
+    end
+    
+ end
 
