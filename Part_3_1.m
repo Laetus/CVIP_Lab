@@ -43,7 +43,6 @@ title('Horizontal Sobel')
 Ps = imadd(immultiply(Pv, Pv),immultiply(Ph, Ph));
 Ps = sqrt(Ps);
 %show result
-close 1
 imshow(uint8(Ps));
 %% 
 % <latex>
@@ -171,8 +170,9 @@ if E_tl1 == E_tl2
     disp('Negative lower thresholds produce the same output as lt = 0');
 end
 if [max2 max3 max4 max5 ] == ones(1,4)
-    disp('If lt increases, white points (= noise or edge pixels) disapear');
+    disp('If lt increases, white points (noise or edges) disapear');
 end
 if [min2 min3 min4 min5] == zeros(1,4)
-    disp('If lt increases, no black point turns white -> number of detected points decreases');
+    disp('If lt increases, no black point turns white -> ')
+    disp('number of detected points decreases');
 end
