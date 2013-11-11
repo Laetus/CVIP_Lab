@@ -1,4 +1,4 @@
-function [ disp_map ] = disp_map2( PL, PR, ny,nx )
+function [ disp_map ] = disparity( PL, PR, ny,nx )
 %DISP_MAP 
     
     PL = double(rgb2gray(PL));
@@ -23,20 +23,26 @@ function [ disp_map ] = disp_map2( PL, PR, ny,nx )
             
             %We are only interested in the y'th line of PR, therefore we
             %can reduce it
-%             ly = max(1,y- ny - 1);
-%             uy = min(sizey, y + ny +1);
-%             lx = max(1, x- 16);
-%             ux = min(sizex, x +16);
+            ly = max(1,y- ny - 1);
+            uy = min(sizey, y + ny +1);
+            lx = max(1, x- 16);
+            ux = min(sizex, x +16);
            
             % Compute SSD matrix  
-            SSD = 2 * conv2(PR, rot90(rot90(template)),'same') - conv2(PRsquare, ones(ny,nx),'same') ;
+            SSD = 2 * conv2(PR(ly:uy,lx:ux), rot90(rot90(template)),'same') - conv2(PRsquare(ly:uy,lx:ux), ones(ny,nx),'same') ;
             
             
             %Find position of maximum in same line, and closer as 15 to x
             
-           
+            %In which line is line y now?
+            if(ly ~= 1)
+                position = ny+2;
+            else
+                position = uy - ny - 1;
+            end
+            
             %Extract the line associated with y
-            line = SSD(y,:);
+            line = SSD(position,:);
             
             %Find the position with the maximum = argmax
             argmax = -Inf;
@@ -49,11 +55,9 @@ function [ disp_map ] = disp_map2( PL, PR, ny,nx )
             end
             
             %Shift x_hat back
-            
-            
-            disp_map(y,x) = max(min(x - x_hat,15),-15);
+            x_hat = x_hat + lx ;
+            disp_map(y,x) = x - x_hat;
             end
     end
     
  end
-
