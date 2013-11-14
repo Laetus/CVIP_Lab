@@ -1,11 +1,11 @@
 %% 
 % <latex>
 % In this exercise we use Fourier transformations to get rid of more
-% complex noise patterns. In this case, diagonal waves. To get the best result, I applied also contrast stretching.
+% complex noise patterns. In this case, diagonal waves.
 % </latex>
 
 P = imread('images/pckint.jpg');
-imshow(P,[]);
+imshow(P);
 %% 
 % <latex>
 % Now we apply a Fourier Transformation, to see the picture in the frequency
@@ -25,7 +25,7 @@ colormap('default')
 %% 
 % <latex>
 % Now we display the power spectrum without \texttt{fftshift} method. Then
-% the peaks are at the edges of the picture.
+% the peaks are at the edges of the picture.help 
 % </latex>
 
 imagesc(S.^0.1);
@@ -36,7 +36,7 @@ coord =    [ 17, 249;
 %% 
 % <latex>
 % Now we set the area around the specified peaks to zero. This is done
-% "manually".
+% "manually" to avoid a lot of error handling code.
 % </latex>
 
 F1 = F;
@@ -49,8 +49,8 @@ imagesc(fftshift(S1.^0.1));
 colormap('default')
 %% 
 % <latex>
-% Now we transform $F_1$ back. To obtain the best result, I did here
-% contrast stretching again. Otherwise, the output would not be comparable.
+% Now we transform $F_1$ back. To obtain the best result, we do here
+% contrast stretching again.
 % </latex>
 
 P1 = ifft2(F1);
@@ -62,8 +62,8 @@ title('After')
 %%
 % <latex>
 % This result is better, but if we look at the not shifted power spectrum,
-% we see, that the rows and columns in which the peaks are, are bigger 
-% than their neighbours. So in an additional step we set them also to zero and obtain an even better result.
+% we see, that the rows and columns in which the peaks are, are bigger,
+% than their neighbours. So in an additional step we set them also to zero.
 % </latex>
 
 F2 = F1;

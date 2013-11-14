@@ -45,11 +45,10 @@ A = [A,-A_end];
 v = [des(:,1);des(:,2)];
 %%
 % <latex>
-% Note that, the rows of $A$ and $v$ are permuted, compared to equation $(*)$. We first consider the rows containing $x_{im}$ and then the
+% Note that, the rows of $A$ and $v$ are permuted, compared to equation (*). We first consider the rows containing $x_{im}$ and then the
 % rows containing $y_{im}$. This trick makes it easier to create the matrix
 % in \texttt{MATLAB}. In linear algebra is shown, that this operation does not affect $u$ at all. The differences are shown below:
 % </latex>
-
 A
 v
 %Order rows
@@ -59,7 +58,7 @@ v_star = v(order)
 %%
 % <latex>
 % Now we we want to compute the variable $u = A^{-1} v$. To do that, we
-% use the \texttt{$\backslash$} operator. This is more efficient, than calculating the inverse and apply a matrix multiplication.
+% use the \texttt{$\backslash$} operator
 % </latex>
 
 u = A\v

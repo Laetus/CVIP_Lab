@@ -3,7 +3,7 @@
 \usepackage{ucs}
 \usepackage[english]{babel}
 \usepackage{amsmath}
-\usepackage{amsfonts,dsfont}
+\usepackage{amsfonts}
 \usepackage{standalone}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -16,7 +16,7 @@
 
 
 \author{Philipp Fröhlich\\ N1301527G}
-\title{Computer Vision and Image Processing\\ Lab 2}
+\title{Computer Vision and Image Processing\\ Lab 1}
 
 \usepackage{color}
 
@@ -40,18 +40,30 @@ The report has the following form. The source code is written in black and \text
 \tableofcontents
 \newpage
 
-\section{Edge Detection}
-\input{Part_3_1}
+\section{Contrast Stretching}
+\pagestyle{fancy}
+\input{Part_2_1}
 \newpage
 
-\section{Line Finding using Hough Transform}
-\input{Part_3_2}
+\section{Histogram Equalization}
+\input{Part_2_2}
 \newpage
 
-
-\section{3D Stereo}
-At first the method \texttt{disp\_map} will be explained.
-\input{disp_map}
+\section{Linear Spatial Filtering}
+\input{Part_2_3}
+\subsection*{Source Code for \texttt{getH}}
+\input{getH}
 \newpage
-\input{Part_3_3}
+
+\section{Median Filtering}
+\input{Part_2_4}
+\newpage
+
+\section{Suppressing Noise Interference Patterns}
+\input{Part_2_5}
+\newpage
+
+\section{Undoing Perspective Distortion of Planar Surface}
+\input{Part_2_6}
+
 \end{document}

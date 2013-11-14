@@ -1,7 +1,8 @@
 %%
 % <latex>
-% The first step is to load the picture. To optimize the result, I used also contrast
-% stretching.
+% As we don't have to compute a additional matrix, the first step is to
+% load the picture again. To optimize the result, we use a contrast
+% stretching again.
 % </latex>
 
 P = imread('images/ntugn.jpg');
@@ -9,7 +10,7 @@ imshow(P,[]);
 %%
 % <latex>
 % Now we apply the already implemented median filter with the
-% \texttt{medfilt2} method and two neighbourhood sizes.
+% \texttt{medfilt2} method.
 % </latex>
 
 P3 = medfilt2(P); % as 3x3 is default
@@ -19,7 +20,9 @@ figure;
 imshow(P5,[]);
 %%
 % <latex>
-% We see that the result gets worse, if neighbourhood size increases. Now we apply median filtering to 'ntusp,jpg'.
+% We seem that the result get worse, if neighbourhood size increases. In
+% contrast to that, we see that in the ntusp picture the noise gets
+% cancelled completely.
 % </latex>
 
 Q = imread('images/ntusp.jpg');
@@ -35,5 +38,5 @@ imshow(Q5,[]);
 % <latex>
 % If the neighbourhood is too big, we lose again some details. So in this case,
 % the $3\times3$ filter has the best result. This is because the noise
-% points are always single pixels. Therefore it is possible to cancel them with the smaller filter.
+% points are always single pixels.
 % </latex>
