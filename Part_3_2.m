@@ -11,8 +11,13 @@ P = rgb2gray(P);
 E = edge(P,'canny', [.04 .1], 1);
 %%
 % <latex>
-% The Hough transform maps every point $x,y)$ to a sinusoidal curve in the feature space. We know from the tutorial, that the intersection between two sinusoidals in the feature space represents the line between the points in the original space. The image has only two intensities $0,1$. If we map the image into the feature space, every point with intensity $1$ is represented by its sinusoidal weighted with the intensity 1. Every point with intensity $0$ disappears. The value of a point in the feature space indicates how many sinusoidals intersect in this point. Therefore we know, how many edgels are located on the corresponding line in the original space.\\ \\ 
-% The Radon transform is slightly different. Here the angles $( \theta_1 , \dots , \theta_N )$  and radii $ (r_1 , \dots , r_M)$  are given. Every combination of these parameters defines an unique line $l(\theta, r)$. The function value $R(\theta_i , r_j)$ is given as the line integral over the image intensity I(t). $$\int_{l(\theta_i,r_j)}  I(t) dt $$ As we are in the discrete domain, $R(\theta_i , r_j)$ is simply the sum of the image intensities for every pixel which is located on line $l(\theta_i , r_j)$. In our case the intensities are $0$ and $1$ and represents "not edgel" and "edgel". We use a lot of angles and radii to get a lot of lines. Therefore $R(\theta_i , r_j)$ is simply the number of edgels on line $l(\theta_i , r_j)$. But that is exactly, what Hough transform produced. Note that, the origin of is in the center of the image and not in the upper left corner.
+% The Hough transform maps every point $(x,y)$ to a sinusoidal curve in the feature space. We know from the tutorial, that the intersection between two sinusoidals in the feature space represents the line between the points in the original space. The image has only two intensities $0,1$. If we map the image into the feature space, every point with intensity $1$ is represented by its sinusoidal weighted with the intensity 1. Every point with intensity $0$ disappears. The value of a point in the feature space indicates how many sinusoidals intersect in this point. Therefore we know, how many edgels are located on the corresponding line in the original space.\\ \\ 
+% The Radon transform is slightly different. Here the angles $( \theta_1 ,
+% \dots , \theta_N )$  and radii $ (r_1 , \dots , r_M)$  are given. Every
+% combination of these parameters defines an unique line $l(\theta, r)$.
+% The function value $R(\theta_i , r_j)$ is given as the line integral over
+% the image intensity I(t). $$\int_{l(\theta_i,r_j)}  I(t) \ \mathrm{d}t $$
+% As we are in the discrete domain, $R(\theta_i , r_j)$ is simply the sum of the image intensities for every pixel which is located on line $l(\theta_i , r_j)$. In our case the intensities are $0$ and $1$ and represent "not edgel" and "edgel". We use a lot of angles and radii to get a lot of lines. Therefore $R(\theta_i , r_j)$ is simply the number of edgels on line $l(\theta_i , r_j)$. But that is exactly, what Hough transform produced. Note that, the origin of is in the center of the image and not in the upper left corner.\\ \\
 % The command is slightly modified, but we obtain the same result.
 % \texttt{angles = 0:179} is the default value, if no angles are specified.
 % To visualize the result better, we apply a colormap and plot the axis.
@@ -29,7 +34,7 @@ colormap(hot),colorbar;
 iptsetpref('ImshowAxesVisible','off');
 %%
 % <latex>
-% Now we have to the position of the maximum value. This point is
+% Now we have to find the position of the maximum value. This point is
 % associated with the line which has most edgels on it. Therefore it is
 % probably an edge. 
 % </latex>
@@ -41,18 +46,18 @@ theta = angles(ymax);
 radius = xp(xmax);
 %%
 % <latex> 
-% If we convert a complex number $c$ in radial representation $ c = r e^{i \Phi}$, where $r$ is the radius and $\Phi = \frac{\theta \pi}{180}$ the angle in radial representation, into Cartesian representation $c = A + Bi$, $A$ and $B$ have the form
-% \begin{equation*}
-% A = r \cos (\Phi) \\
-% B = r \sin (\Phi)
-% \end{equation*}
-% From the tutorial we know, that $\cos (\Phi) + \sin (\Phi) = r$. Now we can think about $C$:
-% \begin{equation*}
+% If we convert a complex number $c$ in radial representation $ c = r e^{i \varphi}$, where $r$ is the radius and $\varphi = \frac{\theta \pi}{180}$ the angle in radial representation, into Cartesian representation $c = A + Bi$, $A$ and $B$ have the form
+% \begin{align*}
+% A = r \cos (\varphi) \\
+% B = r \sin (\varphi)
+% \end{align*}
+% From the tutorial we know, that $\cos (\varphi) + \sin (\varphi) = r$. Now we can think about $C$:
+% \begin{align*}
 % Ax + By = C\\
-% r \cos (\Phi) x + r \sin (\Phi) = C \\
-% r ( \underbrace{\cos (\Phi) + \sin (\Phi)}_{ = r \ \text{shown in tutorial} } ) = C \\
+% r \cos (\varphi) x + r \sin (\varphi) y = C \\
+% r ( \underbrace{\cos (\varphi) x + \sin (\varphi) y }_{ = \ r \ \text{shown in tutorial} } ) = C \\
 % r^2 = C
-% \end{equation*}
+% \end{align*}
 % </latex>
 
 [A, B] = pol2cart(theta*pi/180, radius);
@@ -118,8 +123,8 @@ yl = (C - (A*xl))/B;
 yr = (C - (A*xr))/B;
 
 %Shift origin to upper left corner
-xshifted = [xl, xr] + center(1)
-yshifted = [yl, yr] + center(2)
+xshifted = [xl, xr] + center(1);
+yshifted = [yl, yr] + center(2);
 
 %Display image and line
 imshow(P);

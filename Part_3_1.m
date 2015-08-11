@@ -1,6 +1,6 @@
 %%
 % <latex>
-% In a first step, we load the image,convert it into a a grey level image
+% In a first step, we load the image, convert it into a a grey level image
 % and display it.
 % </latex>
 
@@ -15,9 +15,9 @@ imshow(P);
 % must have the following form: $$ V =  \begin{pmatrix} 1 & 0 &-1 \\ 2 & 0 & -2
 % \\1 & 0 & -1 \end{pmatrix}$$ The horizontal Sobel filter is: $$ H = V^T
 % $$ If a edge is not vertical nor horizontal, we can not detect it. We see
-% this, if we at the edge which separates street and grass. To detect edges with an angle of 45${}^\circ$, the following matrices are suitable.
+% this at the edge which separates street and grass. To detect edges with an angle of 45${}^\circ$, the following matrices are suitable.
 % $$D_- = \begin{pmatrix} 0 & 1 & 2 \\ -1 & 0 & 1 \\ -2 & -1 & 0\end{pmatrix} \ \text{and} \ D_+ =  \begin{pmatrix} -2 & -1 & 0 \\ -1 & 0 & 1 \\ 0 & 1 & 2 \end{pmatrix} $$
-% The results of both filters are displayed below. 
+% The results of both filters $V$ and $H$ are displayed below. 
 % </latex>
 
 vert = [1 0 -1 ;
@@ -35,9 +35,9 @@ title('Horizontal Sobel')
 %%
 % <latex>
 % Now we add and square the results \texttt{Pv} and \texttt{Ph}. In this
-% case there are two main reasons to square the sum. Firstly squaring
-% eliminates negative values. Secondly the difference between the values
-% are amplified.
+% case are two main reasons to square the sum. Firstly squaring
+% eliminates negative values. Secondly the differences between the values
+% are amplified. Big differences are emphasized.
 % </latex>
 
 Ps = imadd(immultiply(Pv, Pv),immultiply(Ph, Ph));
@@ -46,7 +46,7 @@ Ps = sqrt(Ps);
 imshow(uint8(Ps));
 %% 
 % <latex>
-% Now we apply different thresholds. I chose the following thresholds: $$
+% Now we apply different thresholds. I chose the following: $$
 % \tau \in \{32, 64, 128,180,200,245\} $$ If the threshold is chosen too low, we have to
 % much information. If the threshold is chosen too high, important
 % information and details are lost.
@@ -82,7 +82,7 @@ title('\tau = 245')
 % As we have learned in class, this parameter decides how much influence
 % the adjacent pixels have. In one of the previous experiments was shown,
 % that a higher $ \sigma$ value leads to more noise cancellation, but small
-% details can disappear and the images becomes more blurred. In this case
+% details can disappear and the image becomes more blurred. In this case
 % the results are similar. If $\sigma$ is small we see a lot of edges and
 % also noise, e.g. in the grass. If $\sigma$ is higher, we might have lost
 % some edges, but more noise is reduced.
@@ -115,8 +115,8 @@ title('\sigma = 5');
 %%
 % <latex>
 % The variable \texttt{tl} is the \emph{lower threshold}. The lower this
-% threshold is, the more details can be seen in the result. So the minimum
-% intensity change leading to a edge detection is controlled by \texttt{tl}.
+% threshold is, the more details can be seen in the result. The minimum
+% intensity change leading to an edge detection is controlled by \texttt{tl}.
 % Therefore every white point in a picture with lower threshold \texttt{tl}
 % is also white in every picture with a smaller lower threshold. This is
 % shown in by calculating the differences and finding their minimum and
