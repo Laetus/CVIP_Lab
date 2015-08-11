@@ -1,6 +1,6 @@
 %%
 % <latex>
-% We load the picture and apply the Canny algorithm with $\sigma =1$.
+% We load the picture and apply the Canny algorithm.
 % </latex>
 
 close all
@@ -17,7 +17,7 @@ E = edge(P,'canny', [.04 .1], 1);
 % combination of these parameters defines an unique line $l(\theta, r)$.
 % The function value $R(\theta_i , r_j)$ is given as the line integral over
 % the image intensity I(t). $$\int_{l(\theta_i,r_j)}  I(t) \ \mathrm{d}t $$
-% As we are in the discrete domain, $R(\theta_i , r_j)$ is simply the sum (discrete integration is summation) of the image intensities for every pixel which is located on line $l(\theta_i , r_j)$. In our case the intensities are $0$ and $1$ and represent "not edgel" and "edgel". We use a lot of angles and radii to get a lot of lines. Therefore $R(\theta_i , r_j)$ is simply the number of edgels on line $l(\theta_i , r_j)$. But that is exactly, what Hough transform produced. Note that, the origin is in the center of the image and not in the upper left corner.\\ \\
+% As we are in the discrete domain, $R(\theta_i , r_j)$ is simply the sum of the image intensities for every pixel which is located on line $l(\theta_i , r_j)$. In our case the intensities are $0$ and $1$ and represent "not edgel" and "edgel". We use a lot of angles and radii to get a lot of lines. Therefore $R(\theta_i , r_j)$ is simply the number of edgels on line $l(\theta_i , r_j)$. But that is exactly, what Hough transform produced. Note that, the origin of is in the center of the image and not in the upper left corner.\\ \\
 % The command is slightly modified, but we obtain the same result.
 % \texttt{angles = 0:179} is the default value, if no angles are specified.
 % To visualize the result better, we apply a colormap and plot the axis.
@@ -97,8 +97,8 @@ line(xshifted,yshifted ,'LineWidth',2,'Color',[1,0,0]);
 % We see that the line is not the edge of the running path. The reason is,
 % that the edge image contains a lot of noise, especially in the grass
 % area. So we have to reduce the noise. In the previous task was shown,
-% that a higher $\sigma$ reduces this noise. If we change this
-% parameter to $\sigma = 3$, we get a better result.
+% that a higher $\sigma$ reduces this noise. If we change only this
+% parameter, we get the following result.
 % </latex>
 
 E3 = edge(P,'canny', [.04 .1], 3);

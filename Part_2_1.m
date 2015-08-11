@@ -1,19 +1,19 @@
 %%
 % <latex>
 % All images are stored in a separate folder called 'images'. This leads to
-% a tidy workspace. But we have to add the name of the folder to the image name.
+% a tidy workspace. But we have to add the name of the folder to the image name to specify the correct path.
 % </latex>
 
 Pc = imread('images/mrttrainbland.jpg');
 %%
 % <latex>
-% The command \texttt{whos} gives a short summary of the matrix properties.
+% The command \texttt{whos} gives a short summary of the matrix properties. The second column gives information about the size and dimensions of the variable.
 % </latex>
 
 whos Pc
 %%
 % <latex>
-% We see, that the matrix has RGB values. We see this because the third dimension is 3. To convert it to a matrix with
+% We see, that the matrix has RGB values. We see this because the third dimension is $3$. To convert it to a matrix with
 % grey-scale values, we use the method \texttt{rgb2gray}
 % </latex>
 
@@ -33,10 +33,10 @@ imshow(P)
 min_P = min(P(:)),max_P = max(P(:))
 
 %%
-% <latex>
+ <latex>
 % We want a picture $P_1$, such that $\min_{P_1} = 0 $ and $\max_{P_1}
 % = 255$. To reach this, we subtract at first $\min_P$ from every value and
-% multiply the result with $\frac{\max_{P_1}}{\max_P - \min_P}$
+% multiply the result with $\frac{\max_{P_1}}{\max_P - \min_P}$. It is easy to see, that this function maps the $\min_P$ to $\min_{P1}$ and $\max_P$ to $\max_{P1}$.
 % </latex>
 
 P1 =  imsubtract(P,13);

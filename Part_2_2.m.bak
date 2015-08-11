@@ -12,8 +12,8 @@ imhist(P,256);
 %%
 % <latex>
 % We see that the histogram with 256 bins has a higher resolution. But the
-% first gives already a good summary. In both figures can be seen, that there are
-% more dark than bright pixels. We carry out the histogram equalization, with the following command. This will lead to a "flatter" histogram.
+% first gives already a good summary. In both figures, we see that there are
+% more dark than bright pixels. We carry out the histogram equalization, with the following command.
 % </latex>
 
 P2 = histeq(P,255);

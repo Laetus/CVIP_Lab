@@ -37,7 +37,7 @@ title('Horizontal Sobel')
 % Now we add and square the results \texttt{Pv} and \texttt{Ph}. In this
 % case are two main reasons to square the sum. Firstly squaring
 % eliminates negative values. Secondly the differences between the values
-% are amplified. Big differences are emphasized. An other advantage of squaring is, that we do not have to remember which side of the Sobel matrices is negative and which positive, as the result after squaring is the same.
+% are amplified. Big differences are emphasized. An other advantage of squaring is, that we do 
 % </latex>
 
 Ps = imadd(immultiply(Pv, Pv),immultiply(Ph, Ph));
@@ -47,7 +47,7 @@ imshow(uint8(Ps));
 %% 
 % <latex>
 % Now we apply different thresholds. I chose the following: $$
-% \tau \in \{32, 64, 128,180,200,245\} $$ If the threshold is chosen too low, we have too
+% \tau \in \{32, 64, 128,180,200,245\} $$ If the threshold is chosen too low, we have to
 % much information. If the threshold is chosen too high, important
 % information and details are lost.
 % </latex>
@@ -114,12 +114,12 @@ imshow(E5);
 title('\sigma = 5');
 %%
 % <latex>
-% The variable \texttt{tl} is the \emph{lower threshold}. The smaller this
+% The variable \texttt{tl} is the \emph{lower threshold}. The lower this
 % threshold is, the more details can be seen in the result. The minimum
 % intensity change leading to an edge detection is controlled by \texttt{tl}.
 % Therefore every white point in a picture with lower threshold \texttt{tl}
 % is also white in every picture with a smaller lower threshold. This is
-% shown by calculating the differences and finding their minimum and
+% shown in by calculating the differences and finding their minimum and
 % maximum. There we also see see, that negative values for \texttt{lt}
 % produce the same output as $ \mathtt{lt} = 0 $.
 % </latex>
@@ -159,6 +159,7 @@ diff5 = E_tl5 - E_tl6;
 %max(diffx(:)) = 1 means white point in x but not in x+1
 %min(diffx(:)) = 0 means no black point in x, which is white in x+1,
 %otherwise the minimum would be -1
+
 max1 = max(diff1(:));min1 = min(diff1(:));
 max2 = max(diff2(:));min2 = min(diff2(:));
 max3 = max(diff3(:));min3 = min(diff3(:));

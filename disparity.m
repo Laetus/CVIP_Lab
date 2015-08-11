@@ -1,4 +1,4 @@
-function [ disp_map ] = disparity( PL, PR, ny,nx )
+function [ disp_map ] = disp_map( PL, PR, ny,nx )
  
 %%
 % <latex>
@@ -15,7 +15,7 @@ function [ disp_map ] = disparity( PL, PR, ny,nx )
 %%
 % <latex>
 % Not every pixel in \texttt{PL} has a $n_y \times n_x$ neighbourhood. So
-% we enlarge \texttt{PL} with zeros, such that the pixels close to the
+% we pad \texttt{PL} with zeros, such that the pixels close to the
 % frame get a bigger neighbourhood
 % </latex>
 
@@ -50,7 +50,7 @@ function [ disp_map ] = disparity( PL, PR, ny,nx )
 %             to find the maximum position in $31 =
 %             \underbrace{15}_{\text{left of} \ (y,x) } +
 %             \underbrace{15}_{\text{right of} \ (y,x) } + \underbrace{1}_{
-%             pixel \ (x,y)}$ pixels. Therefore The lower and upper
+%             pixel \ (x,y)}$ pixels. Therefore the lower and upper
 %             bounds are calculated as follows:
 %             </latex>
             
@@ -135,4 +135,3 @@ function [ disp_map ] = disparity( PL, PR, ny,nx )
         end
     end
  end
-

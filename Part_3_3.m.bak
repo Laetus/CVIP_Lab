@@ -1,8 +1,6 @@
 %%
 % <latex>
-% We load the images and call the \texttt{disp\_map} method. The
-% \texttt{tic, ..., toc,} command can be used to find out, how long the
-% statement between takes. 
+% We load the images and call the \texttt{disp\_map} method.
 % </latex>
 clear all
 close all
@@ -11,13 +9,12 @@ PL = imread('images\corridorl.jpg');
 PR = imread('images\corridorr.jpg');
 PD = imread('images\corridor_disp.jpg');
 
-tic,
-disp_map = disp_map(PL,PR,11,11); toc,
+disp_map = disp_map(PL,PR,11,11);
 %%
 % <latex>
 % The result is visualized with the given commands. 
 % </latex>
-
+figure
 imshow(-disp_map,[-15 15]);
 title('Solution 1:');
 

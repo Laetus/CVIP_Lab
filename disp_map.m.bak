@@ -50,7 +50,6 @@ function [ disp_map ] = disp_map( PL, PR, ny,nx )
 %             to find the maximum position in $31 =
 %             \underbrace{15}_{\text{left of} \ (y,x) } +
 %             \underbrace{15}_{\text{right of} \ (y,x) } + \underbrace{1}_{
-
 %             pixel \ (x,y)}$ pixels. Therefore the lower and upper
 %             bounds are calculated as follows:
 %             </latex>
